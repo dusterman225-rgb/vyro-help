@@ -1,5 +1,6 @@
 // Vyro help chatbot relay. Holds the OpenRouter key so it never appears in the website.
 import { COMMON, CONTRACTOR, CUSTOMER } from './kb.js';
+import { handleAssistant } from './assistant.js';
 
 const RULES = `You are the Vyro help assistant. Help people who are lost on the Vyro website or app: be short, warm, step by step, plain words.
 Use ONLY the knowledge below. If the answer is not there, say you are not sure and point them to the right person; never invent features, steps, prices or promises.
@@ -15,7 +16,7 @@ function cors(env, origin) {
   return {
     'Access-Control-Allow-Origin': origin === env.ALLOWED_ORIGIN ? origin : env.ALLOWED_ORIGIN,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Vary': 'Origin'
   };
 }
@@ -32,6 +33,10 @@ export default {
 
     let body;
     try { body = await req.json(); } catch (e) { return json(env, origin, { error: 'Bad request' }, 400); }
+    if (new URL(req.url).pathname === '/assistant') {
+      const out = await handleAssistant(req, env, body);
+      return json(env, origin, out.data, out.status);
+    }
     let msgs = Array.isArray(body.messages) ? body.messages.slice(-8) : [];
     msgs = msgs.filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
                .map(m => ({ role: m.role, content: m.content.slice(0, 600) }));
@@ -57,4 +62,4 @@ export default {
     return json(env, origin, { reply: reply });
   }
 };
-  
+    
