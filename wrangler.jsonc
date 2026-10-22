@@ -1,0 +1,10 @@
+{
+  "name": "vyro-help",
+  "main": "worker.js",
+  "compatibility_date": "2025-01-01",
+  "vars": {
+    "ALLOWED_ORIGIN": "https://vyrocontractor.dusterman225.workers.dev",
+    "MODEL": "PUT-THE-FREE-MINIMAX-MODEL-ID-HERE",
+    "FALLBACK_MODEL": ""
+  }
+}
