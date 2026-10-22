@@ -10,7 +10,7 @@
     "FALLBACK_MODEL": "",
     "FIREBASE_PROJECT": "vyrocontractor",
     "DAILY_LIMIT": "40"
-  },
+  }
   "observability": {
     "logs": {
       "enabled": true,
