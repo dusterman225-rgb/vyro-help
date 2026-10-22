@@ -5,6 +5,9 @@
   "vars": {
     "ALLOWED_ORIGIN": "https://vyrocontractor.dusterman225.workers.dev",
     "MODEL": "PUT-THE-FREE-MINIMAX-MODEL-ID-HERE",
-    "FALLBACK_MODEL": ""
+    "ASSISTANT_MODEL": "PUT-THE-FREE-GEMMA-MODEL-ID-HERE",
+    "FALLBACK_MODEL": "",
+    "FIREBASE_PROJECT": "vyrocontractor",
+    "DAILY_LIMIT": "40"
   }
 }
