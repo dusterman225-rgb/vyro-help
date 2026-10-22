@@ -4,8 +4,8 @@
   "compatibility_date": "2025-01-01",
   "vars": {
     "ALLOWED_ORIGIN": "https://vyrocontractor.dusterman225.workers.dev",
-    "MODEL": "PUT-THE-FREE-MINIMAX-MODEL-ID-HERE",
-    "ASSISTANT_MODEL": "PUT-THE-FREE-GEMMA-MODEL-ID-HERE",
+    "MODEL": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "ASSISTANT_MODEL": "google/gemma-4-31b-it:free",
     "FALLBACK_MODEL": "",
     "FIREBASE_PROJECT": "vyrocontractor",
     "DAILY_LIMIT": "40"
