@@ -64,7 +64,7 @@ async function buildContext(env, token, uid, today) {
   const money_ok = role === 'owner' || role === 'supervisor';
   const L = 50;
   const jobs = [
-    query(env, token, bizId, 'invoices', { field: 'status', op: 'IN', values: ['Sent', 'Partially Paid'] }, L),
+    money_ok ? query(env, token, bizId, 'invoices', { field: 'status', op: 'IN', values: ['Sent', 'Partially Paid'] }, L) : Promise.resolve([]),
     query(env, token, bizId, 'jobs', { field: 'status', op: 'IN', values: ['Not Started', 'In Progress', 'On Hold'] }, L),
     query(env, token, bizId, 'estimates', { field: 'status', op: 'IN', values: ['Draft', 'Sent'] }, L),
     query(env, token, bizId, 'leads', { field: 'status', op: 'IN', values: ['New', 'Contacted', 'Estimate Sent'] }, L),
@@ -99,6 +99,7 @@ async function buildContext(env, token, uid, today) {
     'OPEN LEADS' + cap(leads.length) + ':\n' + (leadLines.join('\n') || 'none'),
     'CUSTOMERS (active)' + (custs.length >= 100 ? ' (showing the first 100)' : '') + ':\n' + (custLines.join('\n') || 'none')
   ];
+  if (!money_ok) { text[1] = text[1].replace(/money owed on sent invoices .*? invoices; overdue .*? invoices; /, ''); text[2] = 'INVOICES: not shared with this person.'; }
   if (money_ok) text.push('UNPAID BILLS' + cap(billLines.length) + ':\n' + (billLines.join('\n') || 'none'));
   else text.push('NOTE: this person is not an owner or supervisor, so bills, costs and profit are not shared with them.');
   return { text: text.join('\n\n'), bizId: bizId, bizName: biz.name || 'the business', role: role };
