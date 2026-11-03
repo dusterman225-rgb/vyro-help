@@ -12,8 +12,8 @@ export const CHAINS = {
   // Business assistant: it sees a business's own records, so it uses paid models only (cheap first).
   // No free model here on purpose: free providers may log prompts. Add one at the end only if you accept that.
   assistant: [
-    { model: 'inclusionai/ling-3.0-flash', maxTokens: 1000 },
-    { model: 'google/gemini-3.1-flash-lite', maxTokens: 1000 }
+    { model: 'inclusionai/ling-3.0-flash', maxTokens: 1500 },
+    { model: 'google/gemini-3.1-flash-lite', maxTokens: 1500 }
   ],
   // "Think harder": the same question again on a stronger, pricier model (about 6x the cost of the everyday ones).
   deep: [
