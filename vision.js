@@ -39,6 +39,7 @@ export async function handleVision(env, body, token, helpers) {
   if (!/^data:image\/(jpeg|png|webp);base64,/.test(img) || img.length > 1800000) return { status: 400, data: { error: 'bad', detail: 'Send a photo under about 1.3 MB.' } };
   const day = /^\d{4}-\d{2}-\d{2}$/.test(String(body.today || '')) ? body.today : new Date().toISOString().slice(0, 10);
   const bizId = await helpers.bizIdFor(token);
+  if (body.need === 'assistant') { const g = await helpers.assistantGate(token, bizId, day); if (g) return g; }
   const plus = await helpers.plusFor(token, bizId, day);
   const u = await helpers.countUse(token, bizId, 'v' + day.replace(/-/g, ''), plus ? LIMITS.visionPlus : LIMITS.vision);
   if (!u.ok) return { status: 429, data: { error: 'limit', limit: u.limit, plus: plus } };
