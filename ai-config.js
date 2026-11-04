@@ -20,6 +20,11 @@ export const CHAINS = {
     { model: 'google/gemini-3.5-flash', maxTokens: 1500, timeoutMs: 60000 },
     { model: 'google/gemini-3.1-flash-lite', maxTokens: 1500 }
   ],
+  // Voice clips for browsers with no built-in speech to text (Firefox). The model must accept audio input.
+  transcribe: [
+    { model: 'google/gemini-3.1-flash-lite', maxTokens: 400 },
+    { model: 'google/gemini-3.5-flash', maxTokens: 400, timeoutMs: 60000 }
+  ],
   // Photos of receipts and invoices. Cheap vision model first; the answer must pass the math checks,
   // otherwise the stronger one reads the photo again.
   vision: [
@@ -30,7 +35,7 @@ export const CHAINS = {
 
 // Per business, per day. Photos cost more than chat, so they get their own small allowance.
 // vision = everyone; visionPlus = businesses with the $5/month Photo Plus (set in aiPlans, see firestore.rules).
-export const LIMITS = { chat: 40, vision: 15, visionPlus: 50, deep: 10, byo: 300 };
+export const LIMITS = { chat: 40, vision: 15, visionPlus: 50, deep: 10, byo: 300, transcribe: 120 };
 
 // Dollars per million tokens [in, out]. Used only to log a rough cost line; not billing.
 export const PRICES = {

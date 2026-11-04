@@ -2,6 +2,7 @@
 import { COMMON, CONTRACTOR, CUSTOMER } from './kb.js';
 import { handleAssistant, helpersFor } from './assistant.js';
 import { handleVision } from './vision.js';
+import { handleTranscribe } from './transcribe.js';
 import { runChain, diagnose } from './ai.js';
 import { redact } from './redact.js';
 
@@ -62,6 +63,12 @@ async function handle(req, env) {
     if (new URL(req.url).pathname === '/assistant') {
       const out = await handleAssistant(req, env, body);
       return json(env, origin, out.data, out.status);
+    }
+    if (new URL(req.url).pathname === '/transcribe') {
+      const token = (req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+      if (!token) return json(env, origin, { error: 'signin' }, 401);
+      try { const out = await handleTranscribe(env, body, token, helpersFor(env)); return json(env, origin, out.data, out.status); }
+      catch (e) { return json(env, origin, { error: 'busy', detail: 'could not check your sign-in or counter (' + String(e && e.message || e).slice(0, 60) + ')' }, 502); }
     }
     if (new URL(req.url).pathname === '/vision') {
       const token = (req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
